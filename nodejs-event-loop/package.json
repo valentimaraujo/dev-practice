@@ -1,0 +1,11 @@
+{
+  "name": "nodejs-event-loop",
+  "version": "1.0.0",
+  "description": "https://blog.insiderattack.net/timers-immediates-and-process-nexttick-nodejs-event-loop-part-2-2c53fd511bb3",
+  "main": "forever-nexttick.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
