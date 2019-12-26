@@ -74,6 +74,74 @@ async function take2() {
     return await Promise.all(listOfPromises);
 }
 
+async function take3subtake0() {
+    const concurrencyLimit = 5;
+    let results = [];
+    const batchesCount = Math.ceil(numberOfOperations / concurrencyLimit);
 
-take2();
+    // Running Promises in parallel in batches
+    for (let i = 0; i < batchesCount; i++) {
+        const batchStart = i * concurrencyLimit;
+        const batchArguments = listOfArguments.slice(batchStart, batchStart + concurrencyLimit);
+        const batchPromise = batchArguments.map(asyncOperation);
 
+        // Harvesting
+        const batchResults = await Promise.all(batchPromise);
+        results = results.concat(batchResults);
+        console.log('=====>>>', 'TAKE3SUBTAKE0\n');
+    }
+
+    return results;
+}
+
+async function take3subtake1part0() {
+    const concurrencyLimit = 5;
+    const argsCopy = listOfArguments.slice();
+    const promises = new Array(concurrencyLimit).fill(Promise.resolve());
+
+    // Recursively chain the next Promise to the currently executed Promise
+    function chainNext(p) {
+        if (argsCopy.length) {
+            const arg = argsCopy.shift();
+            return p.then(() => {
+                const operationPromise = asyncOperation(arg);
+                return chainNext(operationPromise);
+            })
+        }
+        return p;
+    }
+
+    await Promise.all(promises.map(chainNext));
+}
+
+async function take3subtake1part1() {
+    const concurrencyLimit = 5;
+    // Enhance arguments array to have an index of the argument at hand
+    const argsCopy = [].concat(listOfArguments.map((val, ind) => ({val, ind})));
+    const result = new Array(listOfArguments.length);
+    const promises = new Array(concurrencyLimit).fill(Promise.resolve());
+
+    // Recursively chain the next Promise to the currently executed Promise
+    function chainNext(p) {
+        if (argsCopy.length) {
+            const arg = argsCopy.shift();
+            return p.then(() => {
+                // Store the result into the array upon Promise completion
+                const operationPromise = asyncOperation(arg.val).then(r => {
+                    result[arg.ind] = r;
+                });
+                return chainNext(operationPromise);
+            });
+        }
+        return p;
+    }
+
+    await Promise.all(promises.map(chainNext));
+    return result;
+}
+
+
+// take2();
+// take3subtake0();
+// take3subtake1part0();
+take3subtake1part1();
