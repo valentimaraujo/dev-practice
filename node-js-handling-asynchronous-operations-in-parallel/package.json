@@ -1,0 +1,11 @@
+{
+  "name": "js-handling-asynchronous-operations-in-parallel",
+  "version": "1.0.0",
+  "description": "https://itnext.io/node-js-handling-asynchronous-operations-in-parallel-69679dfae3fc",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
