@@ -1,0 +1,15 @@
+{
+  "name": "blockchain-websocket-nodejs",
+  "version": "1.0.0",
+  "description": "https://medium.com/@dslaurindo/recebendo-bitcoins-em-realtime-usando-a-api-da-blockchain-websocket-nodejs-e40a60551817",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
