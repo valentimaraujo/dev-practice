@@ -1,28 +1,38 @@
-const debug = require('debug')('app:startup');
 const express = require('express');
-const routers = require('./routers');
-const morgan = require('morgan');
-const helmet = require('helmet');
-const Blockchain = require('./modules/Blockchain');
+const axios = require('axios');
 
-const blockchain = new Blockchain('valente');
+let service = axios.create({
+  baseURL: 'http://localhost:3333/'
+})
 
-console.log(blockchain.api_key);
-console.log(blockchain.checkConfig());
+const app =  express();
 
-const app = express();
+app.get('/wallet-balance', async (req, res) => {
+  let balance = await service.post('/merchant/45675bff-cec1-408f-9b52-d854526f457d/balance', {password:'ghetto-v5821'});
+  res.json(balance.data);
+});
 
-app.use(helmet);
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.get('/listing-addresses', async (req, res) => {
+  let addresses = await service.post('/merchant/45675bff-cec1-408f-9b52-d854526f457d/accounts', {password:'ghetto-v5821'});
+  res.json(addresses.data);
+});
 
-if (app.get('env') === 'development') {
-  app.use(morgan('tiny'));
-  debug('startup Debugger...');
-}
+app.get('/fetch-address-balance', async (req, res) => {
+  let addressBalance = await service.post('/merchant/45675bff-cec1-408f-9b52-d854526f457d/accounts/1JGmmNxcK81LrmcP7E1eAZ4DRSAZ2XqDiz', {
+    password:'ghetto-v5821'
+  });
+  res.json(addressBalance.data);
+});
 
-app.use(routers);
+app.get('/wallet-create', async (req, res) => {
+  let wallet = await service.post('/api/v2/create', {
+    password: 'ghetto-v5821',
+    label: 'wallet-create',
+    email: 'valentim_arauo@yahoo.com.br'
+  });
+  res.json(wallet.data);
+});
 
-app.listen(3333, () => {
-  console.log('====================== Blockchain Api Server run in port: 3333 ======================');
+app.listen(3000, () => {
+  console.log('======================== SERVER LISTING ========================')
 })
