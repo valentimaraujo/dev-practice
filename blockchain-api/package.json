@@ -2,6 +2,7 @@
   "name": "blockchain-api",
   "version": "1.0.0",
   "main": "index.js",
+  "description": "https://github.com/blockchain/service-my-wallet-v3",
   "license": "MIT",
   "scripts": {
     "blockchain-start": "blockchain-wallet-service start --port 3333 ",
