@@ -1,0 +1,16 @@
+{
+  "name": "blockchain-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "https://github.com/blockchain/service-my-wallet-v3",
+  "license": "MIT",
+  "scripts": {
+    "blockchain-start": "blockchain-wallet-service start --port 3333 ",
+    "start": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2"
+  }
+}
