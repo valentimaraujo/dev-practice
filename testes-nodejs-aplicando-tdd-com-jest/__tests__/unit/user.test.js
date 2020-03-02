@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 
 const {User} = require('../../src/app/models');
 const truncate = require('../utils/truncate');
+const factory = require('../factories');
 
 describe('User', () => {
     beforeEach(async () => {
@@ -9,15 +10,23 @@ describe('User', () => {
     });
 
     it('should encrypt user password', async () => {
-        const user = await User.create({
-            name: 'Valentim Araújo',
-            email: 'valentim_araujos@yahoo.com.br',
+        const user = await factory.create('User', {
             password: 'secret',
         });
 
         const compareHash = await bcrypt.compare('secret', user.password_hash);
         expect(compareHash).toBe(true);
     });
+
+
+    // it('should generated JWT token', async () => {
+    //     const user = await factory.create('User', {
+    //         password: 'secret',
+    //     });
+    //
+    //     const compareHash = await bcrypt.compare('secret', user.password_hash);
+    //     expect(compareHash).toBe(true);
+    // });
 
 
 });

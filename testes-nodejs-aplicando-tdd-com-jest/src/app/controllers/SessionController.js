@@ -14,7 +14,10 @@ class SessionController {
             return res.status(401).json({message: 'Unauthorized user'});
         }
 
-        return res.json({user});
+        return res.json({
+            user,
+            token: user.generateToken()
+        });
     }
 }
 
