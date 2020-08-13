@@ -1,10 +1,12 @@
 import {Injectable} from '@nestjs/common';
 import {InjectQueue} from "@nestjs/bull";
 import {Queue} from "bull";
+import {setQueues} from 'bull-board';
 
 @Injectable()
 export class TasksService {
     constructor(@InjectQueue('coletas') private readonly coletasQueue: Queue) {
+        setQueues([coletasQueue]);
     }
 
     async createProcess(): Promise<object> {
