@@ -1,0 +1,8 @@
+db:
+  host: '10.1.1.2'
+  username: 'root'
+  password: 'desenv123'
+  synchronize: true
+
+jwt:
+  secret: 'topSecret51'

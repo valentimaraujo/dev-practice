@@ -1,0 +1,12 @@
+server:
+  origin:
+    - http://localhost:3001
+    - http://localhost2
+db:
+  host: '10.1.1.2'
+  username: 'root'
+  password: 'desenv123'
+  synchronize: false
+
+jwt:
+  secret: 'topSecret51'
