@@ -11,8 +11,28 @@ class LaboratoryController {
     return res.json(laboratory);
   }
 
+  async storeLote(req, res) {
+    const laboratory = await LaboratoryRepository.storeLote(req.body);
+
+    if (laboratory.error) {
+      return res.status(400).send({ error: laboratory.error });
+    }
+
+    return res.json(laboratory);
+  }
+
   async store(req, res) {
     const laboratory = await LaboratoryRepository.store(req.body);
+
+    if (laboratory.error) {
+      return res.status(400).send({ error: laboratory.error });
+    }
+
+    return res.json(laboratory);
+  }
+
+  async updateLote(req, res) {
+    const laboratory = await LaboratoryRepository.updateLote(req.body);
 
     if (laboratory.error) {
       return res.status(400).send({ error: laboratory.error });
@@ -35,6 +55,16 @@ class LaboratoryController {
   async destroy(req, res) {
     const { id } = req.params;
     const laboratory = await LaboratoryRepository.destroy(id);
+
+    if (laboratory.error) {
+      return res.status(400).send({ error: laboratory.error });
+    }
+
+    return res.json(laboratory);
+  }
+
+  async destroyLote(req, res) {
+    const laboratory = await LaboratoryRepository.destroyLote(req.body);
 
     if (laboratory.error) {
       return res.status(400).send({ error: laboratory.error });

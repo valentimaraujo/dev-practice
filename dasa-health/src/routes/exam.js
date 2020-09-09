@@ -1,10 +1,36 @@
 const Router = require('express');
 
 const ExamController = require('../api/controllers/ExamController');
-const schemaValidate = require('../api/middlewares/validates/schemaValidate');
 const schemas = require('../api/middlewares/validates/examSchemaValidate');
+const schemaValidate = require('../api/middlewares/validates/schemaValidate');
 
 const routes = Router();
+
+/**
+ * @swagger
+ * /api/v1/exam/laboratories-by-exam:
+ *  get:
+ *    security:
+ *      - bearerAuth: []
+ *    tags:
+ *      - Exam
+ *    summary: Returns all laborarories by exam name
+ *    produces:
+ *      - application/json
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - name: name
+ *        required: true
+ *        in: query
+ *        schema:
+ *          type: string
+ *          example: RM - Ressonância Magnética
+ *    responses:
+ *      200:
+ *        description: A successful response
+ */
+routes.get('/laboratories-by-exam', ExamController.findLaboratoriesByExam);
 
 /**
  * @swagger
@@ -46,18 +72,65 @@ routes.get('/', ExamController.index);
  *          properties:
  *            name:
  *              type: string
- *            address:
+ *              example: RM - Ressonância Magnética
+ *            type:
  *              type: string
+ *              enum: [analise clinica, imagem]
+ *              example: analise clinica
  *            active:
  *              type: boolean
  *          required:
  *           - name
- *           - address
+ *           - type
  *    responses:
  *      200:
  *        description: A successful response
  */
 routes.post('/', schemaValidate(schemas.create, 'body'), ExamController.store);
+
+/**
+ * @swagger
+ * /api/v1/exam/lote:
+ *  post:
+ *    security:
+ *      - bearerAuth: []
+ *    tags:
+ *      - Exam
+ *    summary: Create exams in lote
+ *    produces:
+ *      - application/json
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - name: body
+ *        in: body
+ *        schema:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              name:
+ *                type: string
+ *              type:
+ *                type: string
+ *                enum: [analise clinica, imagem]
+ *              active:
+ *                type: boolean
+ *            required:
+ *              - name
+ *              - address
+ *          example:
+ *            - name: ACIDO DELTA AMINOLEVULINICO; ALA-U
+ *              type: analise clinica
+ *              active: true
+ *            - name: RM - Ressonância Magnética
+ *              type: imagem
+ *              active: true
+ *    responses:
+ *      200:
+ *        description: A successful response
+ */
+routes.post('/lote', ExamController.storeLote);
 
 /**
  * @swagger
@@ -84,8 +157,11 @@ routes.post('/', schemaValidate(schemas.create, 'body'), ExamController.store);
  *          properties:
  *            name:
  *              type: string
- *            address:
+ *              example: RM - Ressonância Magnética
+ *            type:
  *              type: string
+ *              enum: [analise clinica, imagem]
+ *              example: analise clinica
  *            active:
  *              type: boolean
  *    responses:
@@ -93,6 +169,50 @@ routes.post('/', schemaValidate(schemas.create, 'body'), ExamController.store);
  *        description: A successful response
  */
 routes.put('/:id', schemaValidate(schemas.update, 'body'), ExamController.update);
+
+/**
+ * @swagger
+ * /api/v1/exam/lote/update:
+ *  put:
+ *    security:
+ *      - bearerAuth: []
+ *    tags:
+ *      - Exam
+ *    summary: Update exams in lote
+ *    produces:
+ *      - application/json
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - name: body
+ *        in: body
+ *        schema:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              id:
+ *                type: integer
+ *              name:
+ *                type: string
+ *              address:
+ *                type: string
+ *              active:
+ *                type: boolean
+ *          example:
+ *            - id: 1
+ *              name: ACIDO DELTA AMINOLEVULINICO; ALA-U
+ *              type: analise clinica
+ *              active: true
+ *            - id: 2
+ *              name: RM - Ressonância Magnética
+ *              type: imagem
+ *              active: true
+ *    responses:
+ *      200:
+ *        description: A successful response
+ */
+routes.put('/lote/update', ExamController.updateLote);
 
 /**
  * @swagger
@@ -117,6 +237,34 @@ routes.put('/:id', schemaValidate(schemas.update, 'body'), ExamController.update
  *        description: A successful response
  */
 routes.delete('/:id', ExamController.destroy);
+
+/**
+ * @swagger
+ * /api/v1/exam/lote/delete:
+ *  delete:
+ *    security:
+ *      - bearerAuth: []
+ *    tags:
+ *      - Exam
+ *    summary: Delete exams in lote
+ *    produces:
+ *      - application/json
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - name: body
+ *        in: body
+ *        schema:
+ *          type: array
+ *          items:
+ *            type: integer
+ *            format: int64
+ *          example: [1, 2, 3]
+ *    responses:
+ *      200:
+ *        description: A successful response
+ */
+routes.delete('/lote/delete', ExamController.destroyLote);
 
 /**
  * @swagger
@@ -150,7 +298,7 @@ routes.get('/toggle-status/:id', ExamController.toggleStatus);
  *      - bearerAuth: []
  *    tags:
  *      - Exam
- *    summary: Associates an active exam with an active laboratory
+ *    summary: Associates an active exam with an active exam
  *    produces:
  *      - application/json
  *    consumes:
@@ -160,7 +308,7 @@ routes.get('/toggle-status/:id', ExamController.toggleStatus);
  *        in: path
  *        required: true
  *        type: integer
- *      - name: id_laboratory
+ *      - name: id_exam
  *        in: path
  *        required: true
  *        type: integer
@@ -178,7 +326,7 @@ routes.get('/associate/:id_exam/:id_laboratory', ExamController.associate);
  *      - bearerAuth: []
  *    tags:
  *      - Exam
- *    summary: Deletes a specific association between exam and laboratory
+ *    summary: Deletes a specific association between exam and exam
  *    produces:
  *      - application/json
  *    consumes:
@@ -188,7 +336,7 @@ routes.get('/associate/:id_exam/:id_laboratory', ExamController.associate);
  *        in: path
  *        required: true
  *        type: integer
- *      - name: id_laboratory
+ *      - name: id_exam
  *        in: path
  *        required: true
  *        type: integer

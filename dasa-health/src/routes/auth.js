@@ -23,9 +23,11 @@ const routes = Router();
  *          properties:
  *            email:
  *              type: string
+ *              example: dasa-health@dasahealth.com
  *            password:
  *              type: string
  *              format: password
+ *              example: secret
  *          required:
  *           - username
  *           - password

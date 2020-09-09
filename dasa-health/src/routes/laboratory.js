@@ -1,8 +1,8 @@
 const Router = require('express');
 
 const LaboratoryController = require('../api/controllers/LaboratoryController');
-const schemaValidate = require('../api/middlewares/validates/schemaValidate');
 const schemas = require('../api/middlewares/validates/laboratorySchemaValidate');
+const schemaValidate = require('../api/middlewares/validates/schemaValidate');
 
 const routes = Router();
 
@@ -46,8 +46,10 @@ routes.get('/', LaboratoryController.index);
  *          properties:
  *            name:
  *              type: string
+ *              example: Delboni Auriemo
  *            address:
  *              type: string
+ *              example: R. Brg. Gavião Peixoto, 360 - Lapa, São Paulo - SP, 05078-000
  *            active:
  *              type: boolean
  *          required:
@@ -58,6 +60,49 @@ routes.get('/', LaboratoryController.index);
  *        description: A successful response
  */
 routes.post('/', schemaValidate(schemas.create, 'body'), LaboratoryController.store);
+
+/**
+ * @swagger
+ * /api/v1/laboratory/lote:
+ *  post:
+ *    security:
+ *      - bearerAuth: []
+ *    tags:
+ *      - Laboratory
+ *    summary: Create laboratories in lote
+ *    produces:
+ *      - application/json
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - name: body
+ *        in: body
+ *        schema:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              name:
+ *                type: string
+ *              address:
+ *                type: string
+ *              active:
+ *                type: boolean
+ *            required:
+ *              - name
+ *              - address
+ *          example:
+ *            - name: Delboni Auriemo
+ *              address: R. Brg. Gavião Peixoto, 360 - Lapa, São Paulo - SP, 05078-000
+ *              active: true
+ *            - name: Lavoisier - Laboratório de exames e de Imagem
+ *              address: Av. Águia De Haia, 1751 - Arthur Alvim - São Paulo - Sp, 03694-000
+ *              active: true
+ *    responses:
+ *      200:
+ *        description: A successful response
+ */
+routes.post('/lote', LaboratoryController.storeLote);
 
 /**
  * @swagger
@@ -84,8 +129,10 @@ routes.post('/', schemaValidate(schemas.create, 'body'), LaboratoryController.st
  *          properties:
  *            name:
  *              type: string
+ *              example: Delboni Auriemo
  *            address:
  *              type: string
+ *              example: R. Brg. Gavião Peixoto, 360 - Lapa, São Paulo - SP, 05078-000
  *            active:
  *              type: boolean
  *    responses:
@@ -93,6 +140,50 @@ routes.post('/', schemaValidate(schemas.create, 'body'), LaboratoryController.st
  *        description: A successful response
  */
 routes.put('/:id', schemaValidate(schemas.update, 'body'), LaboratoryController.update);
+
+/**
+ * @swagger
+ * /api/v1/laboratory/lote/update:
+ *  put:
+ *    security:
+ *      - bearerAuth: []
+ *    tags:
+ *      - Laboratory
+ *    summary: Update laboratories in lote
+ *    produces:
+ *      - application/json
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - name: body
+ *        in: body
+ *        schema:
+ *          type: array
+ *          items:
+ *            type: object
+ *            properties:
+ *              id:
+ *                type: integer
+ *              name:
+ *                type: string
+ *              address:
+ *                type: string
+ *              active:
+ *                type: boolean
+ *          example:
+ *            - id: 1
+ *              name: Delboni Auriemo
+ *              address: R. Brg. Gavião Peixoto, 360 - Lapa, São Paulo - SP, 05078-000
+ *              active: true
+ *            - id: 2
+ *              name: Lavoisier - Laboratório de exames e de Imagem
+ *              address: Av. Águia De Haia, 1751 - Arthur Alvim - São Paulo - Sp, 03694-000
+ *              active: true
+ *    responses:
+ *      200:
+ *        description: A successful response
+ */
+routes.put('/lote/update', LaboratoryController.updateLote);
 
 /**
  * @swagger
@@ -117,6 +208,34 @@ routes.put('/:id', schemaValidate(schemas.update, 'body'), LaboratoryController.
  *        description: A successful response
  */
 routes.delete('/:id', LaboratoryController.destroy);
+
+/**
+ * @swagger
+ * /api/v1/laboratory/lote/delete:
+ *  delete:
+ *    security:
+ *      - bearerAuth: []
+ *    tags:
+ *      - Laboratory
+ *    summary: Delete laboratories in lote
+ *    produces:
+ *      - application/json
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - name: body
+ *        in: body
+ *        schema:
+ *          type: array
+ *          items:
+ *            type: integer
+ *            format: int64
+ *          example: [1, 2, 3]
+ *    responses:
+ *      200:
+ *        description: A successful response
+ */
+routes.delete('/lote/delete', LaboratoryController.destroyLote);
 
 /**
  * @swagger

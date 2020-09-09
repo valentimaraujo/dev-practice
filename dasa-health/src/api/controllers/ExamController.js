@@ -11,6 +11,16 @@ class ExamController {
     return res.json(exam);
   }
 
+  async findLaboratoriesByExam(req, res) {
+    const exam = await ExamRepository.findLaboratoriesByExam(req.query);
+
+    if (exam.error) {
+      return res.status(400).send({ error: exam.error });
+    }
+
+    return res.json(exam);
+  }
+
   async store(req, res) {
     const exam = await ExamRepository.store(req.body);
 
@@ -19,6 +29,16 @@ class ExamController {
     }
 
     return res.json(exam);
+  }
+
+  async storeLote(req, res) {
+    const laboratory = await ExamRepository.storeLote(req.body);
+
+    if (laboratory.error) {
+      return res.status(400).send({ error: laboratory.error });
+    }
+
+    return res.json(laboratory);
   }
 
   async update(req, res) {
@@ -32,6 +52,16 @@ class ExamController {
     return res.json(exam);
   }
 
+  async updateLote(req, res) {
+    const laboratory = await ExamRepository.updateLote(req.body);
+
+    if (laboratory.error) {
+      return res.status(400).send({ error: laboratory.error });
+    }
+
+    return res.json(laboratory);
+  }
+
   async destroy(req, res) {
     const { id } = req.params;
     const exam = await ExamRepository.destroy(id);
@@ -41,6 +71,16 @@ class ExamController {
     }
 
     return res.json(exam);
+  }
+
+  async destroyLote(req, res) {
+    const laboratory = await ExamRepository.destroyLote(req.body);
+
+    if (laboratory.error) {
+      return res.status(400).send({ error: laboratory.error });
+    }
+
+    return res.json(laboratory);
   }
 
   async toggleStatus(req, res) {
