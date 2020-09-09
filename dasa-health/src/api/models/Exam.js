@@ -2,7 +2,10 @@ module.exports = (sequelize, DataTypes) => {
   const Exam = sequelize.define('Exam', {
     name: DataTypes.STRING,
     type: DataTypes.STRING,
-    active: DataTypes.BOOLEAN,
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
   });
 
   Exam.associate = (models) => {

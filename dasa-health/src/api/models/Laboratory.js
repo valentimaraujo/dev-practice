@@ -2,7 +2,10 @@ module.exports = (sequelize, DataTypes) => {
   const Laboratory = sequelize.define('Laboratory', {
     name: DataTypes.STRING,
     address: DataTypes.STRING,
-    active: DataTypes.BOOLEAN,
+    active: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
   });
 
   Laboratory.associate = (models) => {

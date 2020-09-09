@@ -1,6 +1,6 @@
 const Router = require('express');
 
-const middlewareAuth = require('./api/middleware/auth');
+const middlewareAuth = require('./api/middlewares/auth');
 const auth = require('./routes/auth');
 const laboratory = require('./routes/laboratory');
 const exam = require('./routes/exam');

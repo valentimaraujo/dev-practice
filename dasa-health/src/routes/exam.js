@@ -1,6 +1,8 @@
 const Router = require('express');
 
 const ExamController = require('../api/controllers/ExamController');
+const schemaValidate = require('../api/middlewares/validates/schemaValidate');
+const schemas = require('../api/middlewares/validates/examSchemaValidate');
 
 const routes = Router();
 
@@ -55,7 +57,7 @@ routes.get('/', ExamController.index);
  *      200:
  *        description: A successful response
  */
-routes.post('/', ExamController.store);
+routes.post('/', schemaValidate(schemas.create, 'body'), ExamController.store);
 
 /**
  * @swagger
@@ -90,7 +92,7 @@ routes.post('/', ExamController.store);
  *      200:
  *        description: A successful response
  */
-routes.put('/:id', ExamController.update);
+routes.put('/:id', schemaValidate(schemas.update, 'body'), ExamController.update);
 
 /**
  * @swagger

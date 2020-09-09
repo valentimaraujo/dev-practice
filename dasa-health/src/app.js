@@ -7,12 +7,15 @@ const express = require('express');
 const RateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const xss = require('xss-clean');
 
 // SWAGGER API DOC
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const xss = require('xss-clean');
+const Youch = require('youch');
+
 const swaggerOptions = require('./config/swagger');
+
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
 
 const routesApp = require('./routes');
@@ -24,7 +27,7 @@ class AppController {
     this.middlewares();
     this.routes();
     this.swaggerDoc();
-    this.exceptionHandler();
+    // this.exceptionHandler();
   }
 
   middlewares() {
