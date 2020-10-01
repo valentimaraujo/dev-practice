@@ -27,7 +27,7 @@ class AppController {
     this.middlewares();
     this.routes();
     this.swaggerDoc();
-    // this.exceptionHandler();
+    this.exceptionHandler();
   }
 
   middlewares() {
@@ -50,6 +50,7 @@ class AppController {
   }
 
   routes() {
+    this.express.get('/', (req, res) => res.json({ message: 'Welcome to Dasa Health API', version: '1.0.0' }));
     this.express.use('/api/v1', routesApp);
   }
 

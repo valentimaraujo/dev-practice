@@ -3,15 +3,19 @@ import { Server } from '@overnightjs/core';
 import bodyParser from 'body-parser';
 import { ForecastController } from '@src/controllers/forecast';
 import { Application } from 'express';
+import * as database from '@src/database';
+import { BeachesController } from '@src/controllers/beaches';
+import { UsersController } from '@src/controllers/users';
 
 export class SetupServer extends Server {
   constructor(private port = 3000) {
     super();
   }
 
-  public init(): void {
+  public async init(): Promise<void> {
     this.setupExpress();
     this.setupControllers();
+    await this.setupDatabase();
   }
 
   private setupExpress(): void {
@@ -20,10 +24,26 @@ export class SetupServer extends Server {
 
   private setupControllers(): void {
     const forecastController = new ForecastController();
-    this.addControllers([forecastController]);
+    const beachesController = new BeachesController();
+    const usersController = new UsersController();
+    this.addControllers([forecastController, beachesController, usersController]);
+  }
+
+  private async setupDatabase(): Promise<void> {
+    await database.connect();
   }
 
   public getApp(): Application {
     return this.app;
+  }
+
+  public async close(): Promise<void> {
+    await database.close();
+  }
+
+  public start(): void {
+    this.app.listen(this.port, () => {
+      console.info('Server listening of port:', this.port);
+    });
   }
 }
