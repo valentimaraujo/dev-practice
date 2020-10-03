@@ -12,8 +12,7 @@ export enum CUSTOM_VALIDATION {
   DUPLICATED = 'DUPLICATED',
 }
 
-interface UserModel extends Omit<User, '_id'>, Document {
-}
+interface UserModel extends Omit<User, '_id'>, Document {}
 
 const schema = new mongoose.Schema(
   {
@@ -56,7 +55,7 @@ schema.pre<UserModel>('save', async function (): Promise<void> {
     const hashedPassword = await AuthService.hashPassword(this.password);
     this.password = hashedPassword;
   } catch (err) {
-    console.error(`Error hashing the password for the user ${ this.name }`, err);
+    console.error(`Error hashing the password for the user ${this.name}`, err);
   }
 });
 

@@ -9,7 +9,9 @@ describe('StormGlass client', () => {
   /**
    * Used for static method's mocks
    */
-  const MockedRequestClass = HTTPUtil.Request as jest.Mocked<typeof HTTPUtil.Request>;
+  const MockedRequestClass = HTTPUtil.Request as jest.Mocked<
+    typeof HTTPUtil.Request
+  >;
   /**
    * Used for instance method's mocks
    */
