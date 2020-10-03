@@ -1,6 +1,7 @@
 import { StormGlass, ForecastPoint } from '@src/clients/stormGlass';
 import { InternalError } from '@src/util/errors/internal-error';
 import { Beach } from '@src/models/beach';
+import logger from '@src/logger';
 
 export interface BeachForecast extends Omit<Beach, 'user'>, ForecastPoint {
 }
@@ -32,6 +33,7 @@ export class Forecast {
       }
       return this.mapForecastByTime(pointsWithCorrectSources);
     } catch (error) {
+      logger.error(error);
       throw new ForecastProcessingInternalError(error.message);
     }
   }

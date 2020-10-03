@@ -2,6 +2,7 @@ import { InternalError } from '@src/util/errors/internal-error';
 import config, { IConfig } from 'config';
 // Another way to have similar behaviour to TS namespaces
 import * as HTTPUtil from '@src/util/request';
+import logger from '@src/logger';
 
 export interface StormGlassPointSource {
   [ key: string ]: number;
@@ -93,6 +94,7 @@ export class StormGlass {
       );
       return this.normalizeResponse(response.data);
     } catch (err) {
+      logger.error(err);
       /**
        * This is handling the Axios errors specifically
        */

@@ -4,6 +4,12 @@
       "StormGlass": {
         "apiToken": "4c1d3540-028c-11eb-9dce-0242ac130002-4c1d3612-028c-11eb-9dce-0242ac130002"
       }
+    },
+    "database": {
+      "mongoUrl": "mongodb://127.0.0.1:27017/surf-forecast-test?retryWrites=true&w=majority"
+    },
+    "logger": {
+      "enabled": false
     }
   }
 }

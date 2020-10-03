@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import AuthService from '@src/services/auth';
+import logger from '@src/logger';
 
 export function authMiddleware(
   req: Partial<Request>,
@@ -12,6 +13,7 @@ export function authMiddleware(
     req.decoded = decoded;
     next();
   } catch (err) {
+    logger.error(err);
     res.status?.(401).send({ code: 401, error: err.message });
   }
 }
